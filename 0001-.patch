@@ -1,0 +1,62 @@
+From e4f74f289fa28daadc006252be5de5d56b485be7 Mon Sep 17 00:00:00 2001
+From: jaruni <18231346184@163.com>
+Date: Sun, 17 Jan 2021 14:20:18 +0800
+Subject: [PATCH] =?UTF-8?q?=E4=BF=AE=E6=94=B9=EF=BC=9A=E5=AD=A6=E4=B9=A0?=
+ =?UTF-8?q?=E7=AC=94=E8=AE=B0?=
+MIME-Version: 1.0
+Content-Type: text/plain; charset=UTF-8
+Content-Transfer-Encoding: 8bit
+
+---
+ Week_01/README.md                                | 16 +++++++++++++++-
+ ...\246\344\271\240\345\277\203\345\276\227.txt" | 14 --------------
+ 2 files changed, 15 insertions(+), 15 deletions(-)
+ delete mode 100644 "Week_01/Work/\345\255\246\344\271\240\345\277\203\345\276\227.txt"
+
+diff --git a/Week_01/README.md b/Week_01/README.md
+index 50de304..a15406e 100644
+--- a/Week_01/README.md
++++ b/Week_01/README.md
+@@ -1 +1,15 @@
+-学习笔记
+\ No newline at end of file
++学习笔记：
++串行GC：单线程进行内存回收，GC执行过程中jvm不可进行任何操作，新生代复制算法、老年代标记-压缩算法，
++	比较适合一些内存比较小且对系统停顿时间不高的老项目
++并行GC：进行多线程内存回收，对年轻代进行并行垃圾回收,并发收集器主要减少年老代的暂停时间,并发收集
++	器使用处理器换来短暂的停顿时间 ,一般用于多核服务器上，是几种GC模式中吞吐量最高的GC策略
++CMS(Concurrent Low Pause Collector) GC:是用两次短暂停来替代串行标记整理算法的长暂停，
++	它的收集周期是这样：
++	初始标记(CMS-initial-mark) -> 并发标记(CMS-concurrent-mark) 并发预清理(CMS-concurrent-preclean)
++	-> 重新标记(CMS-remark) ->并发清除(CMS-concurrent-sweep) ->并发重设状态等待下次CMS
++	的触发(CMS-concurrent-reset)。
++	在初始标记、重新标记两个阶段会出现jvm不进行工作的状态，这样缩短了系统停顿时间，但是吞吐量
++	也会随之下降。
++G1 GC：原则是在大部分的收集阶段都不需要挂起应用程序，G1 没有 CMS 的碎片化问题（或者说不那么严重），
++	同时提供了更加可控的停顿时间。G1 使用了停顿预测模型来满足用户指定的停顿时间目标，并基于目标
++	来选择进行垃圾回收的区块数量。G1 采用增量回收的方式，每次回收一些区块，而不是整堆回收。
+\ No newline at end of file
+diff --git "a/Week_01/Work/\345\255\246\344\271\240\345\277\203\345\276\227.txt" "b/Week_01/Work/\345\255\246\344\271\240\345\277\203\345\276\227.txt"
+deleted file mode 100644
+index 24b2f33..0000000
+--- "a/Week_01/Work/\345\255\246\344\271\240\345\277\203\345\276\227.txt"
++++ /dev/null
+@@ -1,14 +0,0 @@
+-串行GC：单线程进行内存回收，GC执行过程中jvm不可进行任何操作，新生代复制算法、老年代标记-压缩算法，
+-	比较适合一些内存比较小且对系统停顿时间不高的老项目
+-并行GC：进行多线程内存回收，对年轻代进行并行垃圾回收,并发收集器主要减少年老代的暂停时间,并发收集
+-	器使用处理器换来短暂的停顿时间 ,一般用于多核服务器上，是几种GC模式中吞吐量最高的GC策略
+-CMS(Concurrent Low Pause Collector) GC:是用两次短暂停来替代串行标记整理算法的长暂停，
+-	它的收集周期是这样：
+-	初始标记(CMS-initial-mark) -> 并发标记(CMS-concurrent-mark) 并发预清理(CMS-concurrent-preclean)
+-	-> 重新标记(CMS-remark) ->并发清除(CMS-concurrent-sweep) ->并发重设状态等待下次CMS
+-	的触发(CMS-concurrent-reset)。
+-	在初始标记、重新标记两个阶段会出现jvm不进行工作的状态，这样缩短了系统停顿时间，但是吞吐量
+-	也会随之下降。
+-G1 GC：原则是在大部分的收集阶段都不需要挂起应用程序，G1 没有 CMS 的碎片化问题（或者说不那么严重），
+-	同时提供了更加可控的停顿时间。G1 使用了停顿预测模型来满足用户指定的停顿时间目标，并基于目标
+-	来选择进行垃圾回收的区块数量。G1 采用增量回收的方式，每次回收一些区块，而不是整堆回收。
+\ No newline at end of file
+-- 
+2.29.2.windows.3
+
